@@ -1,0 +1,13 @@
+mysql:  sudo /opt/lampp/manager-linux-x64.run
+
+
+
+
+php artisan serve -> This command starts a local development server for your Laravel application.
+
+
+php artisan migrate -> This command runs database migrations, which create or modify tables in your MySQL database based on Laravel's migration files.
+
+
+php artisan migrate:rollback -> Rollback Last Migration:
+
