@@ -112,11 +112,57 @@
 
 
 
+// use App\Http\Controllers\Auth\PasswordResetController;
+// use App\Http\Controllers\ProfileController;
+// use Illuminate\Foundation\Application;
+// use Illuminate\Support\Facades\Route;
+// use Inertia\Inertia;
+// use App\Http\Controllers\Auth\RegisteredUserController;
+
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
+
+
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
+
+// /**
+//  * ✅ Password Reset Routes (Now Using a Controller)
+//  */
+// Route::get('/forgot-password', [PasswordResetController::class, 'showForgotPasswordForm'])
+//     ->middleware('guest')->name('password.request');
+
+// Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail'])
+//     ->middleware('guest')->name('password.email');
+
+// Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetPasswordForm'])
+//     ->middleware('guest')->name('password.reset');
+
+// Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])
+//     ->middleware('guest')->name('password.update');
+
+// require __DIR__.'/auth.php';
+
+
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -135,6 +181,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+/**
+ * ✅ Student Registration Routes
+ */
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredUserController::class, 'store']);
 });
 
 /**
