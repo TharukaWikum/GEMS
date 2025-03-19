@@ -29,7 +29,7 @@ export default function Index({ students }) {
                                 <tr className="bg-gray-100">
                                     <th className="border px-4 py-2">Name</th>
                                     <th className="border px-4 py-2">Email</th>
-                                    <th className="border px-4 py-2">Status</th>
+                                    <th className="border px-4 py-2">Account Status</th>
                                     <th className="border px-4 py-2">DOB</th>
                                     <th className="border px-4 py-2">Gender</th>
                                     <th className="border px-4 py-2">
@@ -130,18 +130,6 @@ export default function Index({ students }) {
                                                     ))}
                                             </td> */}
                                             <td className="border p-2">
-                                                {student.identification_document && (
-                                                    <button
-                                                        onClick={() =>
-                                                            openModal(
-                                                                student.identification_document
-                                                            )
-                                                        }
-                                                        className="text-blue-500 hover:underline mr-2"
-                                                    >
-                                                        View ID
-                                                    </button>
-                                                )}
                                                 {student.payment_receipt && (
                                                     <button
                                                         onClick={() =>
