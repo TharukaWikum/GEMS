@@ -60,8 +60,8 @@ class RegisteredUserController extends Controller
             Log::info('✅ User Created', ['user_id' => $user->id]);
 
             // Handle file uploads
-            $identificationPath = $request->file('identification_document')->store('documents');
-            $paymentReceiptPath = $request->file('payment_receipt')->store('payments');
+            $identificationPath = $request->file('identification_document')->store('documents', 'public');
+$paymentReceiptPath = $request->file('payment_receipt')->store('payments', 'public');
 
             // Store the student details
             $student = Student::create([
@@ -70,10 +70,10 @@ class RegisteredUserController extends Controller
                 'gender' => $request->gender,
                 'nationality' => $request->nationality,
                 'nic' => $request->nic,
-                'identification_document' => $identificationPath,
+                'identification_document' => asset("storage/{$identificationPath}"),
                 'preferred_course' => $request->preferred_course,
                 'payment_method' => $request->payment_method,
-                'payment_receipt' => $paymentReceiptPath,
+                'payment_receipt' => asset("storage/{$paymentReceiptPath}"), 
                 'student_status' => 'prospect',
             ]);
 

@@ -163,6 +163,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -183,6 +184,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+
+
+
+
 /**
  * ✅ Student Registration Routes
  */
@@ -190,6 +196,23 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('/register', [RegisteredUserController::class, 'store']);
 });
+
+/**
+ * ✅ View All Students
+ */
+Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * ✅ Password Reset Routes (Now Using a Controller)
