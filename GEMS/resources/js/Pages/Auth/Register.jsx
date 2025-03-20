@@ -276,7 +276,7 @@ export default function Register() {
         gender: "",
         nationality: "",
         nic: "",
-        identification_document: null,
+        // identification_document: null,
         preferred_course: "",
         payment_method: "",
         payment_receipt: null,
@@ -537,7 +537,7 @@ export default function Register() {
                     </div>
 
                     {/* Full-Width File Uploads */}
-                    <div className="mt-6">
+                    {/* <div className="mt-6">
                         <InputLabel
                             htmlFor="identification_document"
                             value="Upload NIC/Passport"
@@ -557,7 +557,7 @@ export default function Register() {
                             message={errors.identification_document}
                             className="mt-2"
                         />
-                    </div>
+                    </div> */}
 
                     <div className="mt-6">
                         <InputLabel

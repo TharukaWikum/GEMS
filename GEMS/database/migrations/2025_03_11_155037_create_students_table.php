@@ -40,7 +40,6 @@ return new class extends Migration {
             $table->enum('gender', ['male', 'female']);
             $table->string('nationality');
             $table->string('nic')->unique();
-            $table->string('identification_document');
             $table->string('passport_no')->nullable();
             $table->string('profession')->nullable();
             $table->string('workplace_address')->nullable();

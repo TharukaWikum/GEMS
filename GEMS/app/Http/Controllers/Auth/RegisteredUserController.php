@@ -37,7 +37,7 @@ class RegisteredUserController extends Controller
             'gender' => 'required|in:male,female',
             'nationality' => 'required|string',
             'nic' => 'required|string|unique:students,nic',
-            'identification_document' => 'required|file|mimes:pdf,jpg,png|max:2048',
+            // 'identification_document' => 'required|file|mimes:pdf,jpg,png|max:2048',
             'preferred_course' => 'required|string|in:IELTS Academic,IELTS General',
             'payment_method' => 'required|string|in:Bank Payment,Online Transfer,Handover',
             'payment_receipt' => 'required|file|mimes:pdf,jpg,png|max:2048',
@@ -60,7 +60,7 @@ class RegisteredUserController extends Controller
             Log::info('✅ User Created', ['user_id' => $user->id]);
 
             // Handle file uploads
-            $identificationPath = $request->file('identification_document')->store('documents', 'public');
+            // $identificationPath = $request->file('identification_document')->store('documents', 'public');
 $paymentReceiptPath = $request->file('payment_receipt')->store('payments', 'public');
 
             // Store the student details
@@ -70,7 +70,7 @@ $paymentReceiptPath = $request->file('payment_receipt')->store('payments', 'publ
                 'gender' => $request->gender,
                 'nationality' => $request->nationality,
                 'nic' => $request->nic,
-                'identification_document' => asset("storage/{$identificationPath}"),
+                // 'identification_document' => asset("storage/{$identificationPath}"),
                 'preferred_course' => $request->preferred_course,
                 'payment_method' => $request->payment_method,
                 'payment_receipt' => asset("storage/{$paymentReceiptPath}"), 

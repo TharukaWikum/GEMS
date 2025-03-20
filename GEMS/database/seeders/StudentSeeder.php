@@ -47,7 +47,6 @@ class StudentSeeder extends Seeder
             'gender' => 'male',
             'nationality' => 'Sri Lankan',
             'nic' => '123456789V',
-            'identification_document' => 'documents/test.pdf',
             'preferred_course' => 'IELTS Academic',
             'payment_method' => 'Bank Payment',
             'payment_receipt' => 'payments/test.pdf',

@@ -21,7 +21,7 @@ class StudentController extends Controller
                 'students.gender',
                 'students.nationality',
                 'students.nic',
-                'students.identification_document',
+                // 'students.identification_document',
                 'students.preferred_course',
                 'students.payment_method',
                 'students.payment_receipt',

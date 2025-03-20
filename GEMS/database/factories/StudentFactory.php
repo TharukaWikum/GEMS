@@ -22,7 +22,6 @@ class StudentFactory extends Factory
             'gender' => fake()->randomElement(['male', 'female']),
             'nationality' => fake()->country(),
             'nic' => fake()->unique()->numerify('#########V'),
-            'identification_document' => 'documents/' . Str::random(10) . '.pdf',
             'preferred_course' => fake()->randomElement(['IELTS Academic', 'IELTS General']),
             'payment_method' => fake()->randomElement(['Bank Payment', 'Online Transfer', 'Handover']),
             'payment_receipt' => 'receipts/' . Str::random(10) . '.jpg',
