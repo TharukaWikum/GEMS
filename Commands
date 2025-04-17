@@ -1,9 +1,26 @@
-mysql:  sudo /opt/lampp/manager-linux-x64.run
+For Gauri
+git pull-> get updates (Check Pull command run without error)
 
-git pull-> get updates
-
+If you changed some files, you have to commit the changed codes. so Do not update any commands now
 
 Run XAMPP
+
+inside terminal run
+1. php artisan migrate -> This command runs database migrations, which create or modify tables in your MySQL database based on Laravel's migration files.(update Database)
+
+2. php artisan serve -> This command starts a local development server for your Laravel application.
+
+3. npm run dev
+
+2, 3 need to be run simultaneously, use 2 terminals
+
+
+
+
+
+For Tharuka
+mysql:  sudo /opt/lampp/manager-linux-x64.run
+sudo service apache2 stops
 
 inside terminal run
 1. php artisan migrate -> This command runs database migrations, which create or modify tables in your MySQL database based on Laravel's migration files.(update Database)

@@ -18,14 +18,6 @@ export default function Dashboard() {
                         <div className="p-6 text-gray-900">
                             You're logged in!
                         </div>
-                        <div>
-                            <Link
-                                href={route("students.index")}
-                                className="text-blue-500 hover:text-blue-700"
-                            >
-                                View Students
-                            </Link>
-                        </div>
                     </div>
                 </div>
             </div>

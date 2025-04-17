@@ -31,6 +31,31 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Dashboard
                                 </NavLink>
                             </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route('students.index')}
+                                    active={route().current('students.index')}
+                                >
+                                    Students
+                                </NavLink>
+                            </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route('staff.index')}
+                                    active={route().current('staff.index')}
+                                >
+                                    Staff
+                                </NavLink>
+                            </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route('courses.index')}
+                                    active={route().current('courses.index')}
+                                >
+                                    Courses
+                                </NavLink>
+                            </div>
+
                         </div>
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">

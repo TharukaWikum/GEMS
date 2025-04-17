@@ -157,13 +157,26 @@
 // require __DIR__.'/auth.php';
 
 
-use App\Http\Controllers\Auth\PasswordResetController;
-use App\Http\Controllers\ProfileController;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StaffController;
+use App\Http\Controllers\CourseController;
+
+use App\Http\Controllers\Admin\StudentRegisterController;
+use App\Http\Controllers\Admin\StaffRegisterController;
+use App\Http\Controllers\Admin\CourseRegisterController;
+
+
+
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -186,9 +199,6 @@ Route::middleware('auth')->group(function () {
 
 
 
-
-
-
 /**
  * ✅ Student Registration Routes
  */
@@ -197,16 +207,64 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegisteredUserController::class, 'store']);
 });
 
-/**
+
+
+
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+
+        /**
+ * ✅ View All Staff
+ */
+ 
+
+        /**
+ * ✅ View All Courses
+ */
+    // Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+
+    /**
  * ✅ View All Students
  */
 Route::get('/students', [StudentController::class, 'index'])->name('students.index');
 
+           /**
+ * ✅ Staff
+ */
+
+
+ // ✅ View All Staff
+ Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
+
+    //create Staff
+    Route::get('/admin/staff/create', [StaffRegisterController::class, 'create'])->name('admin.staff.create');
+    Route::post('/admin/staff/store', [StaffRegisterController::class, 'store'])->name('admin.staff.store');
+
+    //view Staff
+        Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
 
 
 
+        // ✅ Create Course
+        Route::get('/admin/courses/create', [CourseRegisterController::class, 'create'])->name('admin.courses.create');
+        Route::post('/admin/courses/store', [CourseRegisterController::class, 'store'])->name('admin.courses.store');
 
+        // View All Courses
+        Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+});
 
+    /**
+ * ✅ Create Internal Route for staff to Add Students
+ */
+Route::middleware(['auth', 'role:admin,teacher,frontdesk'])->group(function () {
+
+           /**
+ * ✅ Student
+ */
+    //create internal Student
+    Route::get('/admin/students/create', [StudentRegisterController::class, 'create'])->name('admin.students.create');
+    Route::post('/admin/students/store', [StudentRegisterController::class, 'store'])->name('admin.students.store');
+});
 
 
 

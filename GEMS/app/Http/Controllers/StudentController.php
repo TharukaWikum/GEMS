@@ -9,30 +9,56 @@ use Inertia\Inertia;
 
 class StudentController extends Controller
 {
-    public function index()
-    {
-        $students = User::where('role', 'student')
-            ->join('students', 'users.id', '=', 'students.user_id')
-            ->select(
-                'users.name',
-                'users.email',
-                'users.status',
-                'students.dob',
-                'students.gender',
-                'students.nationality',
-                'students.nic',
-                // 'students.identification_document',
-                'students.preferred_course',
-                'students.payment_method',
-                'students.payment_receipt',
-                'students.student_status'
-            )
-            ->get();
+    // public function index()
+    // {
+    //     $students = User::where('role', 'student')
+    //         ->join('students', 'users.id', '=', 'students.user_id')
+    //         ->select(
+    //             'users.name',
+    //             'users.email',
+    //             'users.status',
+    //             'students.dob',
+    //             'students.gender',
+    //             'students.nationality',
+    //             'students.nic',
+    //             // 'students.identification_document',
+    //             'students.preferred_course',
+    //             'students.payment_method',
+    //             'students.payment_receipt',
+    //             'students.student_status'
+    //         )
+    //         ->get();
 
-        return Inertia::render('Users/Students/Index', [
-            'students' => $students,
-        ]);
-    }
+    //     return Inertia::render('Users/Students/Index', [
+    //         'students' => $students,
+    //     ]);
+    // }
+    public function index()
+{
+    $students = User::where('role', 'student')
+        ->join('students', 'users.id', '=', 'students.user_id')
+        ->select(
+            'users.name',
+            'users.email',
+            'users.status',
+            'students.dob',
+            'students.gender',
+            'students.nationality',
+            'students.nic',
+            'students.preferred_course',
+            'students.payment_method',
+            'students.payment_receipt',
+            'students.student_status'
+        )
+        ->get();
+
+    return Inertia::render('Users/Students/Index', [
+        'students' => $students,
+        'auth' => [
+            'user' => auth()->user(),
+        ],
+    ]);
+}
 }
 
 
