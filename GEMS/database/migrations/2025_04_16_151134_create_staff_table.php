@@ -10,7 +10,7 @@ return new class extends Migration {
             $table->id(); // Staff ID - auto-increment
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('address');
-            $table->string('nic')->unique();
+            // $table->string('nic')->unique();
             $table->string('contact_no');
             $table->text('description')->nullable();
             $table->timestamps();

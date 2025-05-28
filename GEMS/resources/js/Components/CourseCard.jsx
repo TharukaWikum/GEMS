@@ -1,4 +1,9 @@
+import { router } from "@inertiajs/react";
+
 export default function CourseCard({ course }) {
+    const handleView = () => {
+        router.visit(route("admin.courses.profile", { id: course.id }));
+    };
     return (
         <div className="bg-white rounded-lg shadow-md border hover:shadow-lg transition duration-200 p-5">
             <h3 className="text-lg font-semibold text-gray-800 mb-2">
@@ -30,6 +35,12 @@ export default function CourseCard({ course }) {
                     </span>
                 </p>
             </div>
+             <button
+                onClick={handleView}
+                className="mt-2 bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+            >
+                View Course
+            </button>
         </div>
     );
 }

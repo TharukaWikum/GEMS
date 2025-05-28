@@ -19,7 +19,7 @@ class StaffController extends Controller
                 'users.role',
                 'users.status',
                 'staff.address',
-                'staff.nic',
+                // 'staff.nic',
                 'staff.contact_no',
                 'staff.description'
             )

@@ -6,14 +6,14 @@ import SelectInput from "@/Components/SelectInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
 
-export default function StudentForm({ auth }) {
+export default function StudentForm({ auth, onSuccess }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         email: "",
         dob: "",
         gender: "",
         nationality: "",
-        nic: "",
+        // nic: "",
         preferred_course: "",
         payment_method: "",
         payment_receipt: null,
@@ -34,16 +34,23 @@ export default function StudentForm({ auth }) {
         post(route("admin.students.store"), {
             data: formData,
             headers: { "Content-Type": "multipart/form-data" },
-            onSuccess: () => reset(),
+            onSuccess: () => {
+                reset();
+                onSuccess && onSuccess(); // ✅ call modal close if provided
+            },
         });
     };
 
     return (
-        <AuthenticatedLayout user={auth.user} header={
-            <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                Add New Student
-            </h2>
-        }>
+        // <AuthenticatedLayout
+        //     user={auth.user}
+        //     header={
+        //         <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+        //             Add New Student
+        //         </h2>
+        //     }
+        // >
+        <div>
             <Head title="Add Student" />
 
             <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8 mt-10">
@@ -54,11 +61,16 @@ export default function StudentForm({ auth }) {
                             <TextInput
                                 id="name"
                                 value={data.name}
-                                onChange={(e) => setData("name", e.target.value)}
+                                onChange={(e) =>
+                                    setData("name", e.target.value)
+                                }
                                 className="mt-1 block w-full"
                                 required
                             />
-                            <InputError message={errors.name} className="mt-2" />
+                            <InputError
+                                message={errors.name}
+                                className="mt-2"
+                            />
                         </div>
 
                         <div>
@@ -67,11 +79,16 @@ export default function StudentForm({ auth }) {
                                 id="email"
                                 type="email"
                                 value={data.email}
-                                onChange={(e) => setData("email", e.target.value)}
+                                onChange={(e) =>
+                                    setData("email", e.target.value)
+                                }
                                 className="mt-1 block w-full"
                                 required
                             />
-                            <InputError message={errors.email} className="mt-2" />
+                            <InputError
+                                message={errors.email}
+                                className="mt-2"
+                            />
                         </div>
 
                         <div>
@@ -92,7 +109,9 @@ export default function StudentForm({ auth }) {
                             <SelectInput
                                 name="gender"
                                 value={data.gender}
-                                onChange={(e) => setData("gender", e.target.value)}
+                                onChange={(e) =>
+                                    setData("gender", e.target.value)
+                                }
                                 options={[
                                     { value: "male", label: "Male" },
                                     { value: "female", label: "Female" },
@@ -100,22 +119,33 @@ export default function StudentForm({ auth }) {
                                 className="mt-1 block w-full"
                                 required
                             />
-                            <InputError message={errors.gender} className="mt-2" />
+                            <InputError
+                                message={errors.gender}
+                                className="mt-2"
+                            />
                         </div>
 
                         <div>
-                            <InputLabel htmlFor="nationality" value="Nationality" />
+                            <InputLabel
+                                htmlFor="nationality"
+                                value="Nationality"
+                            />
                             <TextInput
                                 id="nationality"
                                 value={data.nationality}
-                                onChange={(e) => setData("nationality", e.target.value)}
+                                onChange={(e) =>
+                                    setData("nationality", e.target.value)
+                                }
                                 className="mt-1 block w-full"
                                 required
                             />
-                            <InputError message={errors.nationality} className="mt-2" />
+                            <InputError
+                                message={errors.nationality}
+                                className="mt-2"
+                            />
                         </div>
 
-                        <div>
+                        {/* <div>
                             <InputLabel htmlFor="nic" value="NIC Number" />
                             <TextInput
                                 id="nic"
@@ -125,7 +155,7 @@ export default function StudentForm({ auth }) {
                                 required
                             />
                             <InputError message={errors.nic} className="mt-2" />
-                        </div>
+                        </div> */}
 
                         <div>
                             <InputLabel value="Preferred Course" />
@@ -163,8 +193,14 @@ export default function StudentForm({ auth }) {
                                     setData("payment_method", e.target.value)
                                 }
                                 options={[
-                                    { value: "Bank Payment", label: "Bank Payment" },
-                                    { value: "Online Transfer", label: "Online Transfer" },
+                                    {
+                                        value: "Bank Payment",
+                                        label: "Bank Payment",
+                                    },
+                                    {
+                                        value: "Online Transfer",
+                                        label: "Online Transfer",
+                                    },
                                     { value: "Handover", label: "Handover" },
                                 ]}
                                 className="mt-1 block w-full"
@@ -178,11 +214,16 @@ export default function StudentForm({ auth }) {
                     </div>
 
                     <div className="mt-6">
-                        <InputLabel htmlFor="payment_receipt" value="Upload Payment Receipt" />
+                        <InputLabel
+                            htmlFor="payment_receipt"
+                            value="Upload Payment Receipt"
+                        />
                         <input
                             type="file"
                             id="payment_receipt"
-                            onChange={(e) => setData("payment_receipt", e.target.files[0])}
+                            onChange={(e) =>
+                                setData("payment_receipt", e.target.files[0])
+                            }
                             className="mt-1 block w-full"
                             required
                         />
@@ -193,10 +234,13 @@ export default function StudentForm({ auth }) {
                     </div>
 
                     <div className="mt-8 flex justify-end">
-                        <PrimaryButton disabled={processing}>Register Student</PrimaryButton>
+                        <PrimaryButton disabled={processing}>
+                            Register Student
+                        </PrimaryButton>
                     </div>
                 </form>
             </div>
-        </AuthenticatedLayout>
+            </div>
+        // </AuthenticatedLayout>
     );
 }

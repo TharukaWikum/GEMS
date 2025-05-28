@@ -39,7 +39,7 @@ return new class extends Migration {
             $table->date('dob');
             $table->enum('gender', ['male', 'female']);
             $table->string('nationality');
-            $table->string('nic')->unique();
+            // $table->string('nic')->unique();
             $table->string('passport_no')->nullable();
             $table->string('profession')->nullable();
             $table->string('workplace_address')->nullable();

@@ -11,7 +11,7 @@ class Staff extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'address', 'nic', 'contact_no', 'description'
+        'user_id', 'address', 'contact_no', 'description'
     ];
 
     public function user()

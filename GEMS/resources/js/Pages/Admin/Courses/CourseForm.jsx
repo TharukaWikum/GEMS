@@ -19,9 +19,9 @@ export default function CourseForm({ teachers, onSuccess }) {
         e.preventDefault();
 
         post(route("admin.courses.store"), {
-            onSuccess: () => {
+            nSuccess: () => {
                 reset();
-                onSuccess && onSuccess();
+                onSuccess && onSuccess(); // ✅ closes modal after submit
             },
         });
     };
@@ -30,18 +30,33 @@ export default function CourseForm({ teachers, onSuccess }) {
         <form onSubmit={submit} className="space-y-4 mt-6">
             <div>
                 <InputLabel value="Course Name" />
-                <TextInput value={data.name} onChange={(e) => setData("name", e.target.value)} className="w-full" required />
+                <TextInput
+                    value={data.name}
+                    onChange={(e) => setData("name", e.target.value)}
+                    className="w-full"
+                    required
+                />
                 <InputError message={errors.name} className="mt-1" />
             </div>
 
             <div>
                 <InputLabel value="Description" />
-                <TextInput value={data.description} onChange={(e) => setData("description", e.target.value)} className="w-full" />
+                <TextInput
+                    value={data.description}
+                    onChange={(e) => setData("description", e.target.value)}
+                    className="w-full"
+                />
             </div>
 
             <div>
                 <InputLabel value="Course Fee (LKR)" />
-                <TextInput type="number" value={data.course_fee} onChange={(e) => setData("course_fee", e.target.value)} className="w-full" required />
+                <TextInput
+                    type="number"
+                    value={data.course_fee}
+                    onChange={(e) => setData("course_fee", e.target.value)}
+                    className="w-full"
+                    required
+                />
                 <InputError message={errors.course_fee} className="mt-1" />
             </div>
 
@@ -50,18 +65,18 @@ export default function CourseForm({ teachers, onSuccess }) {
                 <TextInput value={data.duration} onChange={(e) => setData("duration", e.target.value)} className="w-full" required />
                 <InputError message={errors.duration} className="mt-1" /> */}
                 <div>
-                <InputLabel value="Duration" />
-                <SelectInput
-                    value={data.duration}
-                    onChange={(e) => setData("duration", e.target.value)}
-                    options={[
-                        { value: "30", label: "1 Months" },
-                        { value: "61", label: "2 Months" },
-                        { value: "92", label: "3 Months" },
-                    ]}
-                    className="w-full"
-                />
-            </div>
+                    <InputLabel value="Duration" />
+                    <SelectInput
+                        value={data.duration}
+                        onChange={(e) => setData("duration", e.target.value)}
+                        options={[
+                            { value: "30", label: "1 Month" },
+                            { value: "61", label: "2 Months" },
+                            { value: "92", label: "3 Months" },
+                        ]}
+                        className="w-full"
+                    />
+                </div>
             </div>
 
             <div>
@@ -69,7 +84,10 @@ export default function CourseForm({ teachers, onSuccess }) {
                 <SelectInput
                     value={data.conductor_id}
                     onChange={(e) => setData("conductor_id", e.target.value)}
-                    options={teachers.map(t => ({ value: t.id, label: t.name }))}
+                    options={teachers.map((t) => ({
+                        value: t.id,
+                        label: t.name,
+                    }))}
                     className="w-full"
                     required
                 />
@@ -92,7 +110,9 @@ export default function CourseForm({ teachers, onSuccess }) {
             </div>
 
             <div className="flex justify-end">
-                <PrimaryButton disabled={processing}>Create Course</PrimaryButton>
+                <PrimaryButton disabled={processing}>
+                    Create Course
+                </PrimaryButton>
             </div>
         </form>
     );

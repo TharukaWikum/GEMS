@@ -24,7 +24,7 @@ class StaffRegisterController extends Controller
             'email' => 'required|email|unique:users',
             'role' => 'required|in:admin,teacher,frontdesk',
             'address' => 'required|string',
-            'nic' => 'required|string|unique:staff',
+            // 'nic' => 'required|string|unique:staff',
             'contact_no' => 'required|string',
             'description' => 'nullable|string',
         ]);
@@ -43,7 +43,7 @@ class StaffRegisterController extends Controller
             Staff::create([
                 'user_id' => $user->id,
                 'address' => $validated['address'],
-                'nic' => $validated['nic'],
+                // 'nic' => $validated['nic'],
                 'contact_no' => $validated['contact_no'],
                 'description' => $validated['description'] ?? '',
             ]);

@@ -6,7 +6,7 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SelectInput from "@/Components/SelectInput";
 
-export default function StaffForm({ auth, onSuccess }) {
+export default function StaffForm({ auth }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         email: "",
@@ -14,28 +14,26 @@ export default function StaffForm({ auth, onSuccess }) {
         // nic: "",
         contact_no: "",
         description: "",
-        role: "",
+        role: "", 
     });
 
     const submit = (e) => {
         e.preventDefault();
         post(route("admin.staff.store"), {
-            onSuccess: () => {
-                reset();
-                onSuccess && onSuccess();
-            },
+            onSuccess: () => reset(),
         });
     };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Add New Staff
-                </h2>
-            }
-        >
+        // <AuthenticatedLayout
+        //     user={auth.user}
+        //     header={
+        //         <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+        //             Add New Staff
+        //         </h2>
+        //     }
+        // >
+            <div>
             <Head title="Add Staff" />
             <div className="max-w-3xl mx-auto bg-white shadow p-6 rounded mt-10">
                 <form onSubmit={submit}>
@@ -151,6 +149,7 @@ export default function StaffForm({ auth, onSuccess }) {
                     </div>
                 </form>
             </div>
-        </AuthenticatedLayout>
+            </div>
+        // </AuthenticatedLayout> 
     );
 }

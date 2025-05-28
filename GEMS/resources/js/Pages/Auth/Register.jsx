@@ -275,7 +275,7 @@ export default function Register() {
         dob: "",
         gender: "",
         nationality: "",
-        nic: "",
+        // nic: "",
         // identification_document: null,
         preferred_course: "",
         payment_method: "",
@@ -465,7 +465,7 @@ export default function Register() {
                         </div>
 
                         {/* NIC */}
-                        <div>
+                        {/* <div>
                             <InputLabel htmlFor="nic" value="NIC Number" />
                             <TextInput
                                 className="mt-1 block w-full"
@@ -476,7 +476,7 @@ export default function Register() {
                                 required
                             />
                             <InputError message={errors.nic} className="mt-2" />
-                        </div>
+                        </div> */}
 
                         {/* Preferred Course */}
                         <div>

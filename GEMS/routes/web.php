@@ -253,6 +253,10 @@ Route::get('/students', [StudentController::class, 'index'])->name('students.ind
         Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 });
 
+//view a course
+Route::get('/admin/courses/{id}', [CourseController::class, 'show'])->name('admin.courses.profile');
+
+
     /**
  * ✅ Create Internal Route for staff to Add Students
  */
@@ -265,6 +269,10 @@ Route::middleware(['auth', 'role:admin,teacher,frontdesk'])->group(function () {
     Route::get('/admin/students/create', [StudentRegisterController::class, 'create'])->name('admin.students.create');
     Route::post('/admin/students/store', [StudentRegisterController::class, 'store'])->name('admin.students.store');
 });
+
+//view student profile
+Route::get('/admin/students/{id}', [StudentController::class, 'show'])->name('admin.students.profile');
+
 
 
 
