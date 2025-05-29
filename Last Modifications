@@ -2,3 +2,14 @@
 
 run npm install in th terminal before run the project(for install added dependencies) necessory
 NIC Removed from student and teacher registrations
+add type for the course(General or Academic)
+Course duration dates -> months
+
+2025 may 29
+1. student profile view details -> in this page ignore the payment recipt, because there can be several payment recepts for a student,so that comes with a new page about student payment page. that details show in a table like how much paid and how much yet to be paied.
+
+2. Course Profle page created -> in the duration, that will changed to be monthwise, but when I change the database all the current data will be removed, so I will do that modification when The database updates
+
+3. Course Enrollment created, button can be found in student profile page but validations need to be done, 
+
+4. View Course Student table done in the course profile page
