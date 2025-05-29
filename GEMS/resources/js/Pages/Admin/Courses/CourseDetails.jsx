@@ -4,7 +4,7 @@ export default function CourseDetails({ course }) {
             <div><strong>Name:</strong> {course.name}</div>
             <div><strong>Description:</strong> {course.description}</div>
             <div><strong>Fee:</strong> LKR {course.course_fee}</div>
-            <div><strong>Duration:</strong> {course.duration} Days</div>
+            <div><strong>Duration:</strong> {course.duration}</div>
             <div><strong>Status:</strong> {course.status}</div>
             <div><strong>Conductor:</strong> {course.conductor_name}</div>
         </div>

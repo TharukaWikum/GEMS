@@ -273,6 +273,10 @@ Route::middleware(['auth', 'role:admin,teacher,frontdesk'])->group(function () {
 //view student profile
 Route::get('/admin/students/{id}', [StudentController::class, 'show'])->name('admin.students.profile');
 
+// add course student
+Route::post('/admin/students/{id}/assign-course', [StudentController::class, 'assignToCourse'])->name('admin.students.assignCourse');
+
+
 
 
 

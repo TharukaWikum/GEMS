@@ -18,4 +18,12 @@ class Student extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function enrolledCourses()
+{
+    return $this->belongsToMany(Course::class, 'course_students')
+                ->withPivot('status', 'start_date', 'end_date')
+                ->withTimestamps();
+}
+
 }

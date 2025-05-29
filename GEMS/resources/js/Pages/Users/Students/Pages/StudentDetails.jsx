@@ -7,7 +7,7 @@ export default function StudentDetails({ student }) {
             <div><strong>DOB:</strong> {student.dob}</div>
             <div><strong>Gender:</strong> {student.gender}</div>
             <div><strong>Nationality:</strong> {student.nationality}</div>
-            <div><strong>Course:</strong> {student.preferred_course}</div>
+            <div><strong>Required Course:</strong> {student.preferred_course}</div>
             <div><strong>Payment Method:</strong> {student.payment_method}</div>
             <div><strong>Student Status:</strong> {student.student_status}</div>
             {student.payment_receipt && (

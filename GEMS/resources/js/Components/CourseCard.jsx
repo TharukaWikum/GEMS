@@ -16,7 +16,7 @@ export default function CourseCard({ course }) {
 
             <div className="text-sm text-gray-700 space-y-1">
                 <p><strong>💰 Fee:</strong> LKR {course.course_fee}</p>
-                <p><strong>📅 Duration:</strong> {course.duration} Days</p>
+                <p><strong>📅 Duration:</strong> {course.duration}</p>
                 <p><strong>👨‍🏫 Conductor:</strong> {course.conductor_name}</p>
                 <p>
                     <strong>📌 Status:</strong>{" "}

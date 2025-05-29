@@ -5,6 +5,7 @@ import InputError from "@/Components/InputError";
 import SelectInput from "@/Components/SelectInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 
+
 export default function CourseForm({ teachers, onSuccess }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
@@ -13,6 +14,7 @@ export default function CourseForm({ teachers, onSuccess }) {
         duration: "",
         conductor_id: "",
         status: "Active",
+        type:"General Course",
     });
 
     const submit = (e) => {
@@ -70,9 +72,9 @@ export default function CourseForm({ teachers, onSuccess }) {
                         value={data.duration}
                         onChange={(e) => setData("duration", e.target.value)}
                         options={[
-                            { value: "30", label: "1 Month" },
-                            { value: "61", label: "2 Months" },
-                            { value: "92", label: "3 Months" },
+                            { value: "1 Month", label: "1 Month" },
+                            { value: "2 Month", label: "2 Months" },
+                            { value: "3 Month", label: "3 Months" },
                         ]}
                         className="w-full"
                     />
@@ -104,6 +106,18 @@ export default function CourseForm({ teachers, onSuccess }) {
                         { value: "Inactive", label: "Inactive" },
                         { value: "Completed", label: "Completed" },
                         { value: "Cancelled", label: "Cancelled" },
+                    ]}
+                    className="w-full"
+                />
+            </div>
+            <div>
+                <InputLabel value="Type" />
+                <SelectInput
+                    value={data.type}
+                    onChange={(e) => setData("type", e.target.value)}
+                    options={[
+                        { value: "General Course", label: "General Course" },
+                        { value: "Academic Course", label: "Academic Course" },
                     ]}
                     className="w-full"
                 />
