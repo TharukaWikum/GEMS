@@ -17,6 +17,8 @@ export default function StudentForm({ auth, onSuccess }) {
         preferred_course: "",
         payment_method: "",
         payment_receipt: null,
+        target_country: "",
+        target_score: "",
     });
 
     const submit = (e) => {
@@ -183,6 +185,47 @@ export default function StudentForm({ auth, onSuccess }) {
                                 className="mt-2"
                             />
                         </div>
+                        <div>
+                            <InputLabel
+                                htmlFor="target_country"
+                                value="Target Country"
+                            />
+                            <TextInput
+                                id="target_country"
+                                value={data.target_country}
+                                onChange={(e) =>
+                                    setData("target_country", e.target.value)
+                                }
+                                className="mt-1 block w-full"
+                                required
+                            />
+                            <InputError
+                                message={errors.target_country}
+                                className="mt-2"
+                            />
+                        </div>
+
+                        <div>
+                            <InputLabel
+                                htmlFor="target_score"
+                                value="Target Score (e.g., 6.5)"
+                            />
+                            <TextInput
+                                id="target_score"
+                                type="number"
+                                step="0.5"
+                                value={data.target_score}
+                                onChange={(e) =>
+                                    setData("target_score", e.target.value)
+                                }
+                                className="mt-1 block w-full"
+                                required
+                            />
+                            <InputError
+                                message={errors.target_score}
+                                className="mt-2"
+                            />
+                        </div>
 
                         <div>
                             <InputLabel value="Payment Method" />
@@ -240,7 +283,7 @@ export default function StudentForm({ auth, onSuccess }) {
                     </div>
                 </form>
             </div>
-            </div>
+        </div>
         // </AuthenticatedLayout>
     );
 }

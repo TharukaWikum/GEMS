@@ -280,6 +280,8 @@ export default function Register() {
         preferred_course: "",
         payment_method: "",
         payment_receipt: null,
+        target_country: "",
+        target_score: "",
     });
 
     // const [identificationFile, setIdentificationFile] = useState(null);
@@ -287,9 +289,9 @@ export default function Register() {
 
     const submit = (e) => {
         e.preventDefault();
-    
+
         const formData = new FormData();
-    
+
         // Append all fields to FormData
         Object.keys(data).forEach((key) => {
             if (data[key] instanceof File) {
@@ -298,9 +300,9 @@ export default function Register() {
                 formData.append(key, data[key] ?? "");
             }
         });
-    
+
         console.log("📤 Submitting Form Data:", Object.fromEntries(formData));
-    
+
         post(route("register"), {
             data: formData,
             headers: { "Content-Type": "multipart/form-data" },
@@ -506,6 +508,48 @@ export default function Register() {
                             />
                         </div>
 
+                        <div>
+                            <InputLabel
+                                htmlFor="target_country"
+                                value="Target Country"
+                            />
+                            <TextInput
+                                id="target_country"
+                                value={data.target_country}
+                                onChange={(e) =>
+                                    setData("target_country", e.target.value)
+                                }
+                                className="mt-1 block w-full"
+                                required
+                            />
+                            <InputError
+                                message={errors.target_country}
+                                className="mt-2"
+                            />
+                        </div>
+
+                        <div>
+                            <InputLabel
+                                htmlFor="target_score"
+                                value="Target Score (e.g., 6.5)"
+                            />
+                            <TextInput
+                                id="target_score"
+                                type="number"
+                                step="0.5"
+                                value={data.target_score}
+                                onChange={(e) =>
+                                    setData("target_score", e.target.value)
+                                }
+                                className="mt-1 block w-full"
+                                required
+                            />
+                            <InputError
+                                message={errors.target_score}
+                                className="mt-2"
+                            />
+                        </div>
+
                         {/* Payment Method */}
                         <div>
                             <InputLabel value="Payment Method" />
@@ -559,7 +603,7 @@ export default function Register() {
                         />
                     </div> */}
 
-                    <div className="mt-6">
+                    {/* <div className="mt-6">
                         <InputLabel
                             htmlFor="payment_receipt"
                             value="Upload Payment Receipt"
@@ -576,7 +620,34 @@ export default function Register() {
                             message={errors.payment_receipt}
                             className="mt-2"
                         />
-                    </div>
+                    </div> */}
+                    {data.payment_method !== "Handover" && (
+                        <div className="mt-6">
+                            <InputLabel
+                                htmlFor="payment_receipt"
+                                value="Upload Payment Receipt"
+                            />
+                            <input
+                                type="file"
+                                id="payment_receipt"
+                                onChange={(e) =>
+                                    setData(
+                                        "payment_receipt",
+                                        e.target.files[0]
+                                    )
+                                }
+                                required={[
+                                    "Bank Payment",
+                                    "Online Transfer",
+                                ].includes(data.payment_method)}
+                                className="mt-1 block w-full"
+                            />
+                            <InputError
+                                message={errors.payment_receipt}
+                                className="mt-2"
+                            />
+                        </div>
+                    )}
 
                     <div className="mt-8 flex justify-between">
                         <Link

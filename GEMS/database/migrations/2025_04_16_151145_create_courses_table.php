@@ -11,15 +11,6 @@ return new class extends Migration
      */
     public function up(): void {
         Schema::create('courses', function (Blueprint $table) {
-            // $table->id();
-            // $table->string('name');
-            // $table->text('description')->nullable();
-            // $table->decimal('course_fee', 10, 2);
-            // $table->string('duration');
-            // $table->foreignId('conductor_id')->constrained('staff')->onDelete('cascade'); // reference to staff
-            // $table->enum('status', ['Active', 'Inactive', 'Completed', 'Cancelled'])->default('Inactive');
-            // $table->enum('type', ['General Course', 'Academic Course'])->default('General Course')->after('status');
-            // $table->timestamps();
 
              $table->id();
             $table->string('name');

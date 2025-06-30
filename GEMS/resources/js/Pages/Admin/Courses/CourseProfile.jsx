@@ -2,6 +2,8 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import CourseDetails from "./CourseDetails";
 import CourseStudentList from "./CourseStudentList";
+import CourseMaterialUpload from "./CourseMaterialUpload";
+import CourseMaterials from "./CourseMaterials";
 
 export default function CourseProfile({ auth, course, students }) {
     return (
@@ -14,6 +16,12 @@ export default function CourseProfile({ auth, course, students }) {
             </div>
             <div className="max-w-5xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-6">
                 <CourseStudentList students={students} />
+            </div>
+            <div className="max-w-5xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-6">
+                <CourseMaterials courseId={course.id} />
+            </div>
+            <div className="max-w-5xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-6">
+                <CourseMaterialUpload courseId={course.id} />
             </div>
         </AuthenticatedLayout>
     );

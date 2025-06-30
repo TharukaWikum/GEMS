@@ -174,6 +174,16 @@ use App\Http\Controllers\Admin\StudentRegisterController;
 use App\Http\Controllers\Admin\StaffRegisterController;
 use App\Http\Controllers\Admin\CourseRegisterController;
 
+use App\Http\Controllers\Admin\PaymentVerificationController;
+use App\Http\Controllers\Admin\PlacementTestController;
+use App\Http\Controllers\Student\PlacementTestScheduleController;
+
+
+use App\Http\Controllers\CourseMaterialController;
+
+use App\Http\Controllers\Reports\StudentReportController;
+use App\Http\Controllers\Reports\PaymentReportController;
+
 
 
 
@@ -187,14 +197,88 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+// Route::get('/dashboard', [StudentReportController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::get('/dashboard', [StudentReportController::class, 'index'])
+//     ->middleware(['auth', 'verified'])
+//     ->name('dashboard');
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
+
+// //reports
+// Route::prefix('reports')->middleware(['auth', 'verified'])->group(function () {
+
+//     // 🟢 1. Main Student Enrollment Report View (called inside Dashboard via Inertia)
+//     Route::get('/student-enrollment', [StudentReportController::class, 'index'])->name('reports.student.enrollment');
+
+//     // 🟢 2. Download Enrollment Report (CSV)
+//     Route::get('/student-enrollment/download', [StudentReportController::class, 'download'])->name('reports.student.enrollment.download');
+
+//     // 🟢 3. Monthly Registration Summary (JSON API for charts)
+//     Route::get('/registration-summary', [StudentReportController::class, 'registrationSummary'])->name('reports.registration.summary');
+
+//     // 🟢 4. Student Lifecycle Status Count (JSON API for charts)
+//     Route::get('/lifecycle-status', [StudentReportController::class, 'lifecycleStatusReport'])->name('reports.lifecycle.status');
+
+//     // 🟢 5. Enrollment vs Dropout (JSON API for charts)
+//     Route::get('/enrollment-vs-dropout', [StudentReportController::class, 'enrollmentVsDropout'])->name('reports.enrollment.vs.dropout');
+
+//     // 🟢 6. Nationality & Gender Distribution (JSON API for charts)
+//     Route::get('/nationality-gender-distribution', [StudentReportController::class, 'nationalityGenderDistribution'])->name('reports.nationality.gender');
+
+//     // 🟢 7. Course Enrollment Summary (JSON API for charts)
+//     Route::get('/course-enrollment-summary', [StudentReportController::class, 'courseEnrollment'])->name('reports.course.enrollment');
+
+//     Route::get('/reports/dashboard-summary', [StudentReportController::class, 'dashboardSummary'])
+//     ->middleware(['auth', 'verified']);
+// });
+
+
+Route::get('/dashboard', [StudentReportController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+// 🟢 Authenticated user profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// 🟢 Reports
+Route::prefix('reports')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/student-enrollment/download', [StudentReportController::class, 'download'])
+        ->name('reports.student.enrollment.download');
+
+    // Detailed views
+    Route::get('/student-status/{status}', [StudentReportController::class, 'statusDetails'])->name('reports.student.status.details');
+    Route::get('/reports/student-status-pdf', [StudentReportController::class, 'downloadAllStatusPdf'])
+    ->name('reports.student.status.all.pdf');
+
+    // Route::get('/course/{id}/students', [StudentReportController::class, 'courseDetails'])->name('reports.course.details');
+    Route::get('/course/{id}/students', [StudentReportController::class, 'courseDetails'])
+    ->name('reports.course.details');
+    Route::get('/course-students/download', [StudentReportController::class, 'downloadCourseStudents'])
+    ->name('reports.course.students.download');
+
+
+    Route::get('/course-enrollment-status/{status}', [StudentReportController::class, 'enrollmentStatusDetails'])->name('reports.enrollment.status.details');
+
+    //payments
+    Route::prefix('reports/payments')->group(function () {
+    Route::get('/', [PaymentReportController::class, 'index'])->name('reports.payments');
+    Route::get('/view', [PaymentReportController::class, 'viewAllPayments'])->name('reports.payments.view');
+    Route::get('/download', [PaymentReportController::class, 'downloadAllPaymentsPdf'])->name('reports.payments.download');
+});
 });
 
 
@@ -276,6 +360,74 @@ Route::get('/admin/students/{id}', [StudentController::class, 'show'])->name('ad
 // add course student
 Route::post('/admin/students/{id}/assign-course', [StudentController::class, 'assignToCourse'])->name('admin.students.assignCourse');
 
+
+//payemnt verify
+Route::middleware(['auth', 'role:admin,teacher'])->prefix('admin')->group(function () {
+    Route::get('/payments', [PaymentVerificationController::class, 'index'])->name('payments.index');
+    Route::post('/payments/{id}/verify', [PaymentVerificationController::class, 'verify'])->name('payments.verify');
+    Route::post('/payments/{id}/reject', [PaymentVerificationController::class, 'reject'])->name('payments.reject');
+});
+
+
+
+
+
+
+//placement test
+// Route::middleware(['auth', 'role:admin,teacher'])->prefix('placement-tests')->group(function () {
+//     Route::get('/{id}/download', [PlacementTestController::class, 'downloadMarksheet'])->name('placement.download');
+//     Route::post('/{id}/upload', [PlacementTestController::class, 'uploadMarksheet'])->name('placement.upload');
+// });
+Route::middleware(['auth', 'role:admin,teacher'])->prefix('admin')->group(function () {
+    Route::get('/placement-tests', [PlacementTestController::class, 'index'])->name('placement.index');
+    Route::get('/placement-tests/{id}', [PlacementTestController::class, 'show'])->name('placement.show');
+    Route::get('/placement-tests/{id}/download', [PlacementTestController::class, 'downloadMarksheet'])->name('placement.download');
+    Route::post('/placement-tests/{id}/upload', [PlacementTestController::class, 'uploadMarksheet'])->name('placement.upload');
+});
+
+//schedule 
+// Route::middleware(['auth', 'role:student'])->prefix('student')->group(function () {
+//     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+//     Route::get('/placement-tests/schedule', [PlacementTestScheduleController::class, 'index'])->name('student.placement.schedule');
+//     Route::post('/placement-tests/schedule', [PlacementTestScheduleController::class, 'schedule'])
+//     ->name('student.placement.schedule.submit');
+// });
+
+Route::middleware(['auth', 'role:student'])->prefix('student')->group(function () {
+    Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+
+    // Show available dates
+    Route::get('/placement-tests/schedule', [PlacementTestScheduleController::class, 'index'])
+        ->name('student.placement.schedule');
+
+    // Schedule or Reschedule
+    Route::post('/placement-tests/schedule', [PlacementTestScheduleController::class, 'schedule'])
+        ->name('student.placement.schedule.submit');
+});
+
+
+
+// Student course application routes
+Route::prefix('student')->name('student.')->middleware('role:student')->group(function () {
+    Route::get('courses', [\App\Http\Controllers\Student\CourseApplicationController::class, 'index'])->name('courses.index');
+    Route::post('courses/apply', [\App\Http\Controllers\Student\CourseApplicationController::class, 'store'])->name('courses.apply');
+    Route::get('applications', [\App\Http\Controllers\Student\CourseApplicationController::class, 'studentApplications'])->name('applications.index');
+});
+
+
+//installment paying
+Route::post('installments/pay', [\App\Http\Controllers\Student\InstallmentPaymentController::class, 'pay'])
+    ->name('student.installments.pay');
+
+
+
+
+
+    //course material
+    Route::middleware(['auth'])->group(function () {
+    Route::post('/course-materials', [CourseMaterialController::class, 'store'])->name('materials.store');
+    Route::get('/course-materials/{courseId}', [CourseMaterialController::class, 'index'])->name('materials.index');
+});
 
 
 

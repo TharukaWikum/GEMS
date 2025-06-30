@@ -69,8 +69,26 @@ public function staff()
     return $this->hasOne(Staff::class);
 }
 
+public function isStudent()
+{
+    return $this->role === 'student';
+}
+
+public function isAdmin()
+{
+    return $this->role === 'admin';
+}
+
+public function isTeacher()
+{
+    return $this->role === 'teacher';
+}
+
+
     
 }
+
+
 
 
 // namespace App\Models;

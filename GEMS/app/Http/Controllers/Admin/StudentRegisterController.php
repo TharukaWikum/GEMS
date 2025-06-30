@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Student;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB; 
 
 class StudentRegisterController extends Controller
 {
@@ -27,8 +29,9 @@ class StudentRegisterController extends Controller
             'nationality' => 'required',
             // 'nic' => 'required|unique:students',
             'preferred_course' => 'required',
-            'payment_method' => 'required',
-            'payment_receipt' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'payment_method' => 'required|in:Bank Payment,Online Transfer,Handover',
+            'payment_receipt' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'target_country' => 'required|string|max:255','target_score' => 'required|numeric|min:0|max:9.0',
         ]);
 
         $user = User::create([
@@ -39,19 +42,42 @@ class StudentRegisterController extends Controller
             'status' => 'active',
         ]);
 
-        Student::create([
-            'user_id' => $user->id,
-            'dob' => $validated['dob'],
-            'gender' => $validated['gender'],
-            'nationality' => $validated['nationality'],
-            // 'nic' => $validated['nic'],
-            'preferred_course' => $validated['preferred_course'],
-            'payment_method' => $validated['payment_method'],
-            'payment_receipt' => $request->file('payment_receipt')->store('receipts', 'public'),
-            'student_status' => 'prospect',
-        ]);
+        // Student::create([
+        //     'user_id' => $user->id,
+        //     'dob' => $validated['dob'],
+        //     'gender' => $validated['gender'],
+        //     'nationality' => $validated['nationality'],
+        //     // 'nic' => $validated['nic'],
+        //     'preferred_course' => $validated['preferred_course'],
+        //     'student_status' => 'prospect',
+        // ]);
+        $student = Student::create([
+    'user_id' => $user->id,
+    'dob' => $validated['dob'],
+    'gender' => $validated['gender'],
+    'nationality' => $validated['nationality'],
+    'preferred_course' => $validated['preferred_course'],
+    'student_status' => 'prospect',
+    'target_country' => $validated['target_country'],
+    'target_score' => $validated['target_score'],
+]);
 
-        return redirect()->route('students.index')->with('success', 'Student added successfully');
+        $receiptPath = null;
+    if ($request->hasFile('payment_receipt') && in_array($validated['payment_method'], ['Online Transfer', 'Bank Payment'])) {
+    $receiptPath = $request->file('payment_receipt')->store('receipts', 'public');
+}
+
+        Payment::create([
+        'student_id' => $student->id,
+        'type' => 'registration',
+        'amount' => 2500.00, // Optional: can be filled if known
+        'method' => $validated['payment_method'],
+        'receipt' => $receiptPath,
+        'verified' => false,
+    ]);
+
+    
+    return redirect()->route('students.index')->with('success', 'Student registered with payment successfully.');
 
         
     }

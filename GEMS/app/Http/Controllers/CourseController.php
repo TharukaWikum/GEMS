@@ -45,25 +45,7 @@ class CourseController extends Controller
         ]);
     }
 
-    //view course
-// public function show($id)
-// {
-//     $course = Course::with('conductorRelation.user')->findOrFail($id);
 
-//     return Inertia::render('Admin/Courses/CourseProfile', [
-//         'course' => [
-//             'id' => $course->id,
-//             'name' => $course->name,
-//             'description' => $course->description,
-//             'type' => $course->type,
-//             'course_fee' => $course->course_fee,
-//             'duration' => $course->duration,
-//             'status' => $course->status,
-//             'conductor_name' => $course->conductorRelation?->user?->name ?? 'N/A',
-//         ],
-//         'auth' => ['user' => auth()->user()],
-//     ]);
-// }
 public function show($id)
 {
     $course = Course::with(['conductorRelation.user', 'enrolledStudents.user'])->findOrFail($id);

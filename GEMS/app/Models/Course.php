@@ -25,4 +25,32 @@ class Course extends Model
                 ->withTimestamps();
 }
 
+public function studentApplications()
+{
+    return $this->hasMany(StudentCourseApplication::class);
+}
+
+public function courseMaterials()
+{
+    return $this->hasMany(CourseMaterial::class);
+}
+
+public function conductor()
+{
+    return $this->belongsTo(Staff::class, 'conductor_id'); // assuming foreign key
+}
+
+public function students()
+{
+    return $this->hasMany(\App\Models\CourseStudent::class);
+}
+
+
+public function courseStudents()
+{
+    return $this->hasMany(CourseStudent::class);
+}
+
+
+
 }
