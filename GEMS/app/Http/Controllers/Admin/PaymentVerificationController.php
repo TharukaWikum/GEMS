@@ -135,26 +135,26 @@ class PaymentVerificationController extends Controller
     //     return redirect()->back()->with('success', 'Payment verified, student registered, and email sent.');
     // }
 
-    // public function reject(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'reason' => 'required|string|max:1000',
-    //     ]);
+    public function reject(Request $request, $id)
+    {
+        $request->validate([
+            'reason' => 'required|string|max:1000',
+        ]);
 
-    //     $payment = Payment::with('student.user')->findOrFail($id);
+        $payment = Payment::with('student.user')->findOrFail($id);
 
-    //     $payment->update([
-    //         'rejected' => true,
-    //         'rejected_at' => now(),
-    //         'rejected_by' => auth()->id(),
-    //         'rejection_reason' => $request->reason,
-    //     ]);
+        $payment->update([
+            'rejected' => true,
+            'rejected_at' => now(),
+            'rejected_by' => auth()->id(),
+            'rejection_reason' => $request->reason,
+        ]);
 
-    //     $user = $payment->student->user;
-    //     $user->notify(new PaymentRejectedNotification(ucfirst($payment->type), $request->reason));
+        $user = $payment->student->user;
+        $user->notify(new PaymentRejectedNotification(ucfirst($payment->type), $request->reason));
 
-    //     return redirect()->back()->with('success', 'Payment rejected and user notified.');
-    // }
+        return redirect()->back()->with('success', 'Payment rejected and user notified.');
+    }
 
     public function verify($id)
 {
