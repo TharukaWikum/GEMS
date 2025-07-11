@@ -18,9 +18,12 @@ return new class extends Migration
     }
 
     public function down(): void
-    {
-        Schema::table('students', function (Blueprint $table) {
-            DB::statement("ALTER TABLE students MODIFY student_status ENUM('prospect', 'registered') NOT NULL");
-        });
-    }
+{
+    // Update all unknown statuses to a safe value before shrinking ENUM
+    DB::table('students')
+        ->whereNotIn('student_status', ['prospect', 'registered'])
+        ->update(['student_status' => 'prospect']);
+
+    DB::statement("ALTER TABLE students MODIFY student_status ENUM('prospect', 'registered') NOT NULL");
+}
 };
