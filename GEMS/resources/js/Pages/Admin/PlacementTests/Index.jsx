@@ -6,6 +6,7 @@ import PendingResultsTable from "./PendingResultsTable";
 import CompletedTestsTable from "./CompletedTestsTable";
 
 export default function Index({ auth, scheduled, pending, completed }) {
+    console.log("pending",pending)
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Placement Tests" />

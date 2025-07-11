@@ -1,4 +1,8 @@
+import { router } from '@inertiajs/react';
+
 export default function StaffList({ staffList = [] }) {
+    console.log("first", staffList);
+
     return (
         <div className="bg-white overflow-hidden shadow-sm rounded-lg p-6">
             <div className="text-2xl font-semibold m-2 mb-3">Staff List</div>
@@ -22,7 +26,27 @@ export default function StaffList({ staffList = [] }) {
                                 <td className="border px-4 py-2">{staff.name}</td>
                                 <td className="border px-4 py-2">{staff.email}</td>
                                 <td className="border px-4 py-2 capitalize">{staff.role}</td>
-                                <td className="border px-4 py-2">{staff.status}</td>
+                                <td className="border px-4 py-2">
+                                    <select
+                                        defaultValue={staff.status}
+                                        className="border rounded p-1 text-sm"
+                                        onChange={(e) => {
+                                            const status = e.target.value;
+                                            router.post(
+                                                route("admin.staff.updateStatus", staff.id),
+                                                { status },
+                                                {
+                                                    preserveScroll: true,
+                                                    preserveState: true,
+                                                }
+                                            );
+                                        }}
+                                    >
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                        <option value="blocked">Blocked</option>
+                                    </select>
+                                </td>
                                 <td className="border px-4 py-2">{staff.contact_no}</td>
                                 <td className="border px-4 py-2">{staff.nic}</td>
                                 <td className="border px-4 py-2">{staff.address}</td>

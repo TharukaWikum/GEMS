@@ -154,7 +154,7 @@ public function show($id)
 public function index()
     {
         $scheduled = PlacementTest::withCount('results')->where('status', 'scheduled')->orderByDesc('created_at')->get();
-        $pending = PlacementTest::withCount('results')->where('status', 'pending_results')->orderByDesc('created_at')->get();
+        $pending = PlacementTest::withCount('results')->where('status', 'pending')->orderByDesc('created_at')->get();
         $completed = PlacementTest::withCount('results')->where('status', 'completed')->orderByDesc('created_at')->get();
 
         return Inertia::render('Admin/PlacementTests/Index', [
@@ -164,54 +164,17 @@ public function index()
         ]);
     }
 
-
-    
-public function scheduleForStudent(Request $request, $studentId)
+    public function markPending($id)
 {
-    $request->validate([
-        'scheduled_date' => [
-            'required', 'date', 'after_or_equal:today',
-            function ($attribute, $value, $fail) {
-                $day = Carbon::parse($value)->format('l');
-                if (!in_array($day, ['Saturday', 'Sunday', 'Monday'])) {
-                    $fail('Only Saturday, Sunday, and Monday are allowed.');
-                }
-            },
-        ],
-    ]);
+    $test = PlacementTest::findOrFail($id);
+    $test->status = 'pending'; // or 'Pending' if you use capitalized enums
+    $test->save();
 
-    $date = $request->scheduled_date;
-
-    DB::transaction(function () use ($date, $studentId) {
-        // Clean up any existing incomplete test
-        $existing = PlacementTestResult::where('student_id', $studentId)
-            ->whereHas('placementTest', fn ($q) => $q->where('status', 'scheduled'))
-            ->first();
-
-        if ($existing) {
-            $test = $existing->placementTest;
-            $existing->delete();
-            if ($test && $test->results()->count() === 0) {
-                $test->delete();
-            }
-        }
-
-        // Create or reuse test
-        $test = PlacementTest::firstOrCreate(
-            ['test_date' => $date],
-            ['title' => 'Placement Test - ' . $date, 'status' => 'scheduled']
-        );
-
-        if ($test->results()->count() >= 10) {
-            throw new \Exception('Date full. Choose another.');
-        }
-
-        $test->results()->create(['student_id' => $studentId]);
-        Student::findOrFail($studentId)->update(['student_status' => 'placement_scheduled']);
-    });
-
-    return back()->with('success', 'Placement Test scheduled for ' . $date);
+    return redirect()->back()->with('success', 'Placement test status updated to pending.');
 }
+
+
+  
 
 
 }

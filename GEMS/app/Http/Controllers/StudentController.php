@@ -42,7 +42,7 @@ class StudentController extends Controller
             // 'students.payment_receipt',
             'students.student_status',
             'students.target_country',
-            'students.target_score',
+            // 'students.target_score',
         )
         ->get();
 
@@ -52,6 +52,19 @@ class StudentController extends Controller
             'user' => auth()->user(),
         ],
     ]);
+}
+
+public function updateUserStatus(Request $request, $id)
+{
+    $request->validate([
+        'status' => 'required|in:active,inactive,blocked',
+    ]);
+
+    $user = User::findOrFail($id);
+    $user->status = $request->status;
+    $user->save();
+
+    return back()->with('success', 'User status updated successfully.');
 }
 
 public function resubmitRegistrationPayment(Request $request)

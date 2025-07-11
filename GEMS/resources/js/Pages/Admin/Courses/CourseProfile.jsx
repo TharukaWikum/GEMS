@@ -7,12 +7,12 @@ import CourseMaterials from "./CourseMaterials";
 import ScheduleCourseExam from "./ScheduleCourseExam";
 import ExamDetails from "../CourseExams/ExamDetails";
 
-export default function CourseProfile({ auth, course, students, exams }) {
-    console.log("course", course);
-    console.log("students", students);
+export default function CourseProfile({ auth, course, students, exams, teachers}) {
+    // console.log("course", course);
+    // console.log("students", students);
     // console.log("courseDetails", courseDetails)
     // console.log("studentDetails", studentDetails)
-    console.log("exams", exams);
+    // console.log("exams", exams);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -24,7 +24,7 @@ export default function CourseProfile({ auth, course, students, exams }) {
         >
             <Head title="Course Profile" />
             <div className="max-w-4xl mx-auto bg-white p-6 mt-6 shadow rounded-lg">
-                <CourseDetails course={course} />
+                <CourseDetails course={course} teachers={teachers}/>
             </div>
             <div className="max-w-5xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-6">
                 <CourseStudentList students={students} />

@@ -118,6 +118,27 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         ->name('admin.students.schedule-placement');
 });
 
+//update student status
+Route::middleware(['auth', 'role:admin'])->group(function () {
+   Route::post('/admin/students/{id}/update-status', [StudentController::class, 'updateUserStatus'])->name('admin.students.updateStatus'); 
+});
+
+//update staff status
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::post('/admin/staff/{id}/update-status', [StaffController::class, 'updateStatus'])->name('admin.staff.updateStatus');
+});
+
+//update Course details
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::put('/admin/courses/update/{id}', [CourseController::class, 'update'])->name('admin.courses.update');
+
+});
+
+
+
+
+
+
 
 
 
@@ -206,6 +227,9 @@ Route::middleware(['auth', 'role:admin,teacher'])->prefix('admin')->group(functi
     Route::get('/placement-tests/{id}', [PlacementTestController::class, 'show'])->name('placement.show');
     Route::get('/placement-tests/{id}/download', [PlacementTestController::class, 'downloadMarksheet'])->name('placement.download');
     Route::post('/placement-tests/{id}/upload', [PlacementTestController::class, 'uploadMarksheet'])->name('placement.upload');
+    Route::post('/admin/placement-tests/{id}/mark-pending', [PlacementTestController::class, 'markPending'])
+    ->name('placement.markPending');
+
 });
 
 
@@ -238,7 +262,11 @@ Route::prefix('student')->name('student.')->middleware('role:student')->group(fu
 //         ->name('admin.students.staff-installment-payment');
 // });
 
+//  Route::post('/installments/pay', [\App\Http\Controllers\Student\InstallmentPaymentController::class, 'pay'])->name('installments.pay');
 
+//installment paying
+Route::post('installments/pay', [\App\Http\Controllers\Student\InstallmentPaymentController::class, 'pay'])
+    ->name('student.installments.pay');
 
 
 
