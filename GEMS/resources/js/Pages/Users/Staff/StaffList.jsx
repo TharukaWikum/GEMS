@@ -10,6 +10,7 @@ export default function StaffList({ staffList = [] }) {
                         <th className="border px-4 py-2">Role</th>
                         <th className="border px-4 py-2">Status</th>
                         <th className="border px-4 py-2">Contact No</th>
+                        <th className="border px-4 py-2">NIC</th>
                         <th className="border px-4 py-2">Address</th>
                         <th className="border px-4 py-2">Description</th>
                     </tr>
@@ -23,6 +24,7 @@ export default function StaffList({ staffList = [] }) {
                                 <td className="border px-4 py-2 capitalize">{staff.role}</td>
                                 <td className="border px-4 py-2">{staff.status}</td>
                                 <td className="border px-4 py-2">{staff.contact_no}</td>
+                                <td className="border px-4 py-2">{staff.nic}</td>
                                 <td className="border px-4 py-2">{staff.address}</td>
                                 <td className="border px-4 py-2">{staff.description}</td>
                             </tr>

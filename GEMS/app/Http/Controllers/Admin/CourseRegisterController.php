@@ -28,6 +28,7 @@ class CourseRegisterController extends Controller
         'duration' => 'required|string|max:100',
         'conductor_id' => 'required|exists:staff,id', // ✅ corrected field + table
         'status' => 'required|in:Active,Inactive,Completed,Cancelled', // ✅ match enum
+        'type' => 'required|in:General Course,Academic Course',
     ]);
 
     Course::create([
@@ -37,6 +38,7 @@ class CourseRegisterController extends Controller
         'duration' => $validated['duration'],
         'conductor_id' => $validated['conductor_id'], // ✅ correct column
         'status' => $validated['status'],
+        'type' => $validated['type'],
     ]);
 
     return redirect()->back()->with('success', 'Course added successfully!');

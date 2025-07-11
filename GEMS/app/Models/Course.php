@@ -51,6 +51,12 @@ public function courseStudents()
     return $this->hasMany(CourseStudent::class);
 }
 
+public function exams()
+{
+    return $this->hasMany(CourseExam::class);
+}
+
+
 
 
 }

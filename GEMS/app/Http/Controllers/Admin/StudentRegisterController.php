@@ -42,15 +42,6 @@ class StudentRegisterController extends Controller
             'status' => 'active',
         ]);
 
-        // Student::create([
-        //     'user_id' => $user->id,
-        //     'dob' => $validated['dob'],
-        //     'gender' => $validated['gender'],
-        //     'nationality' => $validated['nationality'],
-        //     // 'nic' => $validated['nic'],
-        //     'preferred_course' => $validated['preferred_course'],
-        //     'student_status' => 'prospect',
-        // ]);
         $student = Student::create([
     'user_id' => $user->id,
     'dob' => $validated['dob'],

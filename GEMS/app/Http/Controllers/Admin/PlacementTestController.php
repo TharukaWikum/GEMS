@@ -13,6 +13,8 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\PlacementTestResultsReleased;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PlacementTestController extends Controller
 {
@@ -43,32 +45,6 @@ class PlacementTestController extends Controller
 
     // Fill student data with formula for Final Score
     $row = 7;
-    // foreach ($test->results as $result) {
-    //     $sheet->setCellValue("A{$row}", $result->student->id);
-    //     $sheet->setCellValue("B{$row}", $result->student->user->name);
-    //     $sheet->setCellValue("C{$row}", $result->student->user->email);
-
-    //     // Empty cells for scores/comments
-    //     $sheet->setCellValue("D{$row}", ''); // Writing Score
-    //     $sheet->setCellValue("E{$row}", ''); // Writing Comment
-    //     $sheet->setCellValue("F{$row}", ''); // Speaking Score
-    //     $sheet->setCellValue("G{$row}", ''); // Speaking Comment
-    //     $sheet->setCellValue("H{$row}", ''); // Listening Score
-    //     $sheet->setCellValue("I{$row}", ''); // Listening Comment
-    //     $sheet->setCellValue("J{$row}", ''); // Reading Score
-    //     $sheet->setCellValue("K{$row}", ''); // Reading Comment
-
-    //     // Final Score (Excel formula)
-    //     // $sheet->setCellValue("L{$row}", "=ROUND(AVERAGE(D{$row},F{$row},H{$row},J{$row}), 2)");
-    //     $sheet->setCellValue("L{$row}", "=ROUND(AVERAGE(D{$row},F{$row},H{$row},J{$row}), 2)");
-
-
-
-    //     // Final Comment
-    //     $sheet->setCellValue("M{$row}", '');
-
-    //     $row++;
-    // }
     foreach ($test->results as $result) {
     $sheet->setCellValue("A{$row}", $result->student->id);
     $sheet->setCellValue("B{$row}", $result->student->user->name);
@@ -125,16 +101,6 @@ class PlacementTestController extends Controller
         $data = $rows[$i];
         if (empty($data[0])) continue;
 
-        // PlacementTestResult::where([
-        //     ['placement_test_id', $id],
-        //     ['student_id', $data[0]],
-        // ])->update([
-        //     'writing_score' => $data[3], 'writing_comment' => $data[4],
-        //     'speaking_score' => $data[5], 'speaking_comment' => $data[6],
-        //     'listening_score' => $data[7], 'listening_comment' => $data[8],
-        //     'reading_score' => $data[9], 'reading_comment' => $data[10],
-        //     'final_score' => $data[11], 'final_comment' => $data[12],
-        // ]);
 
         // Skip if final score is not numeric (e.g., #DIV/0!, N/A, "")
 $finalScore = is_numeric($data[11]) ? $data[11] : null;
@@ -197,6 +163,55 @@ public function index()
             'completed' => $completed,
         ]);
     }
+
+
+    
+public function scheduleForStudent(Request $request, $studentId)
+{
+    $request->validate([
+        'scheduled_date' => [
+            'required', 'date', 'after_or_equal:today',
+            function ($attribute, $value, $fail) {
+                $day = Carbon::parse($value)->format('l');
+                if (!in_array($day, ['Saturday', 'Sunday', 'Monday'])) {
+                    $fail('Only Saturday, Sunday, and Monday are allowed.');
+                }
+            },
+        ],
+    ]);
+
+    $date = $request->scheduled_date;
+
+    DB::transaction(function () use ($date, $studentId) {
+        // Clean up any existing incomplete test
+        $existing = PlacementTestResult::where('student_id', $studentId)
+            ->whereHas('placementTest', fn ($q) => $q->where('status', 'scheduled'))
+            ->first();
+
+        if ($existing) {
+            $test = $existing->placementTest;
+            $existing->delete();
+            if ($test && $test->results()->count() === 0) {
+                $test->delete();
+            }
+        }
+
+        // Create or reuse test
+        $test = PlacementTest::firstOrCreate(
+            ['test_date' => $date],
+            ['title' => 'Placement Test - ' . $date, 'status' => 'scheduled']
+        );
+
+        if ($test->results()->count() >= 10) {
+            throw new \Exception('Date full. Choose another.');
+        }
+
+        $test->results()->create(['student_id' => $studentId]);
+        Student::findOrFail($studentId)->update(['student_status' => 'placement_scheduled']);
+    });
+
+    return back()->with('success', 'Placement Test scheduled for ' . $date);
+}
 
 
 }

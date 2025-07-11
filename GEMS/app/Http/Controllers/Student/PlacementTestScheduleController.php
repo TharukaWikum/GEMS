@@ -116,11 +116,14 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Models\Student;
 use App\Models\PlacementTest;
+use App\Models\PlacementTestResult;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PlacementTestScheduleController extends Controller
 {
@@ -229,4 +232,53 @@ class PlacementTestScheduleController extends Controller
 
         return redirect()->route('student.dashboard')->with('success', 'Placement test scheduled for ' . $date);
     }
+
+
+      
+public function scheduleForStudent(Request $request, $studentId)
+{
+    $request->validate([
+        'scheduled_date' => [
+            'required', 'date', 'after_or_equal:today',
+            function ($attribute, $value, $fail) {
+                $day = Carbon::parse($value)->format('l');
+                if (!in_array($day, ['Saturday', 'Sunday', 'Monday'])) {
+                    $fail('Only Saturday, Sunday, and Monday are allowed.');
+                }
+            },
+        ],
+    ]);
+
+    $date = $request->scheduled_date;
+
+    DB::transaction(function () use ($date, $studentId) {
+        // Clean up any existing incomplete test
+        $existing = PlacementTestResult::where('student_id', $studentId)
+            ->whereHas('placementTest', fn ($q) => $q->where('status', 'scheduled'))
+            ->first();
+
+        if ($existing) {
+            $test = $existing->placementTest;
+            $existing->delete();
+            if ($test && $test->results()->count() === 0) {
+                $test->delete();
+            }
+        }
+
+        // Create or reuse test
+        $test = PlacementTest::firstOrCreate(
+            ['test_date' => $date],
+            ['title' => 'Placement Test - ' . $date, 'status' => 'scheduled']
+        );
+
+        if ($test->results()->count() >= 10) {
+            throw new \Exception('Date full. Choose another.');
+        }
+
+        $test->results()->create(['student_id' => $studentId]);
+        Student::findOrFail($studentId)->update(['student_status' => 'placement_scheduled']);
+    });
+
+    return back()->with('success', 'Placement Test scheduled for ' . $date);
+}
 }

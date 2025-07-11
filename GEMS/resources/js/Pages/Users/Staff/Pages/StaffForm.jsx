@@ -11,7 +11,7 @@ export default function StaffForm({ auth }) {
         name: "",
         email: "",
         address: "",
-        // nic: "",
+        nic: "",
         contact_no: "",
         description: "",
         role: "", 
@@ -106,7 +106,7 @@ export default function StaffForm({ auth }) {
                             />
                         </div>
 
-                        {/* <div>
+                        <div>
                             <InputLabel value="NIC" />
                             <TextInput
                                 value={data.nic}
@@ -115,7 +115,7 @@ export default function StaffForm({ auth }) {
                                 className="w-full"
                             />
                             <InputError message={errors.nic} className="mt-1" />
-                        </div> */}
+                        </div>
                         <div>
                             <InputLabel value="Contact No" />
                             <TextInput

@@ -2,6 +2,7 @@ import React from 'react';
 import { Head } from '@inertiajs/react';
 
 export default function AllPayments({ payments }) {
+    console.log("payments",payments)
   return (
     <>
       <Head title="All Payments" />

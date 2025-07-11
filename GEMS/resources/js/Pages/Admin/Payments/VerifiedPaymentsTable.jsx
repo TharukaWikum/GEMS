@@ -3,6 +3,7 @@
 import React from "react";
 
 export default function VerifiedPaymentsTable({ payments }) {
+    // console.log("first",payments)
     return (
         <div>
             <h2 className="text-xl font-semibold mb-3">Verified Payments</h2>

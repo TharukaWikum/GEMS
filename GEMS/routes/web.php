@@ -1,163 +1,5 @@
 <?php
 
-// use App\Http\Controllers\ProfileController;
-// use Illuminate\Foundation\Application;
-// use Illuminate\Support\Facades\Route;
-// use Inertia\Inertia;
-// use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Password;
-
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-// require __DIR__.'/auth.php';
-
-
-
-
-// use App\Http\Controllers\ProfileController;
-// use Illuminate\Foundation\Application;
-// use Illuminate\Support\Facades\Route;
-// use Inertia\Inertia;
-// use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Password;
-
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-// /**
-//  * ✅ Password Reset Routes
-//  */
-
-// // Show Forgot Password Form (React Component)
-// Route::get('/forgot-password', function () {
-//     return Inertia::render('Auth/ForgotPassword');
-// })->middleware('guest')->name('password.request');
-
-// // Handle Password Reset Link Request
-// Route::post('/forgot-password', function (Request $request) {
-//     $request->validate(['email' => 'required|email']);
-
-//     $status = Password::sendResetLink($request->only('email'));
-
-//     return $status === Password::RESET_LINK_SENT
-//         ? back()->with(['status' => __($status)])
-//         : back()->withErrors(['email' => __($status)]);
-// })->middleware('guest')->name('password.email');
-
-// // Show Reset Password Form (React Component)
-// Route::get('/reset-password/{token}', function (string $token) {
-//     return Inertia::render('Auth/ResetPassword', ['token' => $token]);
-// })->middleware('guest')->name('password.reset');
-
-// // Handle Reset Password Form Submission
-// Route::post('/reset-password', function (Request $request) {
-//     $request->validate([
-//         'token' => 'required',
-//         'email' => 'required|email',
-//         'password' => 'required|min:8|confirmed',
-//     ]);
-
-//     $status = Password::reset(
-//         $request->only('email', 'password', 'password_confirmation', 'token'),
-//         function ($user, string $password) {
-//             $user->forceFill([
-//                 'password' => bcrypt($password),
-//             ])->setRememberToken(\Illuminate\Support\Str::random(60));
-
-//             $user->save();
-
-//             event(new \Illuminate\Auth\Events\PasswordReset($user));
-//         }
-//     );
-
-//     return $status === Password::PASSWORD_RESET
-//         ? redirect()->route('login')->with('status', __($status))
-//         : back()->withErrors(['email' => [__($status)]]);
-// })->middleware('guest')->name('password.update');
-
-// require __DIR__.'/auth.php';
-
-
-
-// use App\Http\Controllers\Auth\PasswordResetController;
-// use App\Http\Controllers\ProfileController;
-// use Illuminate\Foundation\Application;
-// use Illuminate\Support\Facades\Route;
-// use Inertia\Inertia;
-// use App\Http\Controllers\Auth\RegisteredUserController;
-
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-// /**
-//  * ✅ Password Reset Routes (Now Using a Controller)
-//  */
-// Route::get('/forgot-password', [PasswordResetController::class, 'showForgotPasswordForm'])
-//     ->middleware('guest')->name('password.request');
-
-// Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail'])
-//     ->middleware('guest')->name('password.email');
-
-// Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetPasswordForm'])
-//     ->middleware('guest')->name('password.reset');
-
-// Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])
-//     ->middleware('guest')->name('password.update');
-
-// require __DIR__.'/auth.php';
-
-
-
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -180,9 +22,14 @@ use App\Http\Controllers\Student\PlacementTestScheduleController;
 
 
 use App\Http\Controllers\CourseMaterialController;
+use App\Http\Controllers\Admin\CourseExamController;
 
 use App\Http\Controllers\Reports\StudentReportController;
 use App\Http\Controllers\Reports\PaymentReportController;
+
+
+use App\Http\Controllers\Admin\StaffInstallmentPaymentController;
+use App\Http\Controllers\Admin\StaffCourseApplicationController;
 
 
 
@@ -197,50 +44,6 @@ Route::get('/', function () {
     ]);
 });
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-
-// Route::get('/dashboard', [StudentReportController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::get('/dashboard', [StudentReportController::class, 'index'])
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-// //reports
-// Route::prefix('reports')->middleware(['auth', 'verified'])->group(function () {
-
-//     // 🟢 1. Main Student Enrollment Report View (called inside Dashboard via Inertia)
-//     Route::get('/student-enrollment', [StudentReportController::class, 'index'])->name('reports.student.enrollment');
-
-//     // 🟢 2. Download Enrollment Report (CSV)
-//     Route::get('/student-enrollment/download', [StudentReportController::class, 'download'])->name('reports.student.enrollment.download');
-
-//     // 🟢 3. Monthly Registration Summary (JSON API for charts)
-//     Route::get('/registration-summary', [StudentReportController::class, 'registrationSummary'])->name('reports.registration.summary');
-
-//     // 🟢 4. Student Lifecycle Status Count (JSON API for charts)
-//     Route::get('/lifecycle-status', [StudentReportController::class, 'lifecycleStatusReport'])->name('reports.lifecycle.status');
-
-//     // 🟢 5. Enrollment vs Dropout (JSON API for charts)
-//     Route::get('/enrollment-vs-dropout', [StudentReportController::class, 'enrollmentVsDropout'])->name('reports.enrollment.vs.dropout');
-
-//     // 🟢 6. Nationality & Gender Distribution (JSON API for charts)
-//     Route::get('/nationality-gender-distribution', [StudentReportController::class, 'nationalityGenderDistribution'])->name('reports.nationality.gender');
-
-//     // 🟢 7. Course Enrollment Summary (JSON API for charts)
-//     Route::get('/course-enrollment-summary', [StudentReportController::class, 'courseEnrollment'])->name('reports.course.enrollment');
-
-//     Route::get('/reports/dashboard-summary', [StudentReportController::class, 'dashboardSummary'])
-//     ->middleware(['auth', 'verified']);
-// });
 
 
 Route::get('/dashboard', [StudentReportController::class, 'index'])
@@ -273,8 +76,8 @@ Route::prefix('reports')->middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/course-enrollment-status/{status}', [StudentReportController::class, 'enrollmentStatusDetails'])->name('reports.enrollment.status.details');
 
-    //payments
-    Route::prefix('reports/payments')->group(function () {
+
+Route::prefix('reports/payments')->group(function () {
     Route::get('/', [PaymentReportController::class, 'index'])->name('reports.payments');
     Route::get('/view', [PaymentReportController::class, 'viewAllPayments'])->name('reports.payments.view');
     Route::get('/download', [PaymentReportController::class, 'downloadAllPaymentsPdf'])->name('reports.payments.download');
@@ -291,6 +94,29 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegisteredUserController::class, 'store']);
 });
 
+//resubmit registration payemnt
+Route::middleware(['auth', 'role:student'])->group(function () {
+    Route::post('/student/resubmit-registration-payment', [StudentController::class, 'resubmitRegistrationPayment']);
+});
+
+//staff registering a student to a course
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::post('/admin/students/{student}/course-application', [StaffCourseApplicationController::class, 'store'])->name('admin.students.course.apply');
+});
+
+// staff pay the installments
+Route::post('/admin/students/{student}/installment-payment', [StaffInstallmentPaymentController::class, 'store'])
+    ->name('admin.students.installment-payment');
+
+
+    //staff schedule placement test
+// Route::post('/admin/students/{student}/schedule-placement', [PlacementTestController::class, 'scheduleForStudent'])->name('admin.students.schedule-placement');
+
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::post('/admin/students/{student}/schedule-placement', [PlacementTestScheduleController::class, 'scheduleForStudent'])
+        ->name('admin.students.schedule-placement');
+});
 
 
 
@@ -374,10 +200,7 @@ Route::middleware(['auth', 'role:admin,teacher'])->prefix('admin')->group(functi
 
 
 //placement test
-// Route::middleware(['auth', 'role:admin,teacher'])->prefix('placement-tests')->group(function () {
-//     Route::get('/{id}/download', [PlacementTestController::class, 'downloadMarksheet'])->name('placement.download');
-//     Route::post('/{id}/upload', [PlacementTestController::class, 'uploadMarksheet'])->name('placement.upload');
-// });
+
 Route::middleware(['auth', 'role:admin,teacher'])->prefix('admin')->group(function () {
     Route::get('/placement-tests', [PlacementTestController::class, 'index'])->name('placement.index');
     Route::get('/placement-tests/{id}', [PlacementTestController::class, 'show'])->name('placement.show');
@@ -385,13 +208,7 @@ Route::middleware(['auth', 'role:admin,teacher'])->prefix('admin')->group(functi
     Route::post('/placement-tests/{id}/upload', [PlacementTestController::class, 'uploadMarksheet'])->name('placement.upload');
 });
 
-//schedule 
-// Route::middleware(['auth', 'role:student'])->prefix('student')->group(function () {
-//     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
-//     Route::get('/placement-tests/schedule', [PlacementTestScheduleController::class, 'index'])->name('student.placement.schedule');
-//     Route::post('/placement-tests/schedule', [PlacementTestScheduleController::class, 'schedule'])
-//     ->name('student.placement.schedule.submit');
-// });
+
 
 Route::middleware(['auth', 'role:student'])->prefix('student')->group(function () {
     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
@@ -416,8 +233,12 @@ Route::prefix('student')->name('student.')->middleware('role:student')->group(fu
 
 
 //installment paying
-Route::post('installments/pay', [\App\Http\Controllers\Student\InstallmentPaymentController::class, 'pay'])
-    ->name('student.installments.pay');
+// Route::middleware(['auth', 'role:admin,frontdesk'])->group(function () {
+//     Route::post('/admin/students/{student}/staff-installment-payment', [StaffInstallmentPaymentController::class, 'store'])
+//         ->name('admin.students.staff-installment-payment');
+// });
+
+
 
 
 
@@ -427,6 +248,28 @@ Route::post('installments/pay', [\App\Http\Controllers\Student\InstallmentPaymen
     Route::middleware(['auth'])->group(function () {
     Route::post('/course-materials', [CourseMaterialController::class, 'store'])->name('materials.store');
     Route::get('/course-materials/{courseId}', [CourseMaterialController::class, 'index'])->name('materials.index');
+});
+
+//course exam
+Route::middleware(['auth', 'role:admin,teacher'])->prefix('admin')->name('admin.')->group(function () {
+    // Create new course exam
+    Route::post('/course-exams', [CourseExamController::class, 'store'])->name('course_exams.store');
+
+    // Update existing course exam
+    Route::put('/course-exams/{exam}', [CourseExamController::class, 'update'])->name('course_exams.update');
+
+    // Delete course exam
+    Route::delete('/course-exams/{exam}', [CourseExamController::class, 'destroy'])->name('course_exams.destroy');
+
+    //view exam
+    Route::get('/exams/{exam}', [CourseExamController::class, 'show'])->name('exams.show');
+
+    //exam results
+    Route::get('/course-exams/{id}/download', [CourseExamController::class, 'downloadMarksheet'])->name('course_exams.download');
+Route::post('/course-exams/{id}/upload', [CourseExamController::class, 'uploadMarksheet'])->name('course_exams.upload');
+
+
+
 });
 
 

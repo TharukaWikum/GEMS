@@ -33,14 +33,25 @@ class Payment extends Model
     return $this->belongsTo(StudentCourseApplication::class, 'application_id');
 }
 
+// public function verifiedBy()
+// {
+//     return $this->belongsTo(\App\Models\Staff::class, 'verified_by');
+// }
+
+// public function rejectedBy()
+// {
+//     return $this->belongsTo(\App\Models\Staff::class, 'rejected_by');
+// }
+
 public function verifiedBy()
 {
-    return $this->belongsTo(\App\Models\Staff::class, 'verified_by');
+    return $this->belongsTo(\App\Models\User::class, 'verified_by');
 }
 
 public function rejectedBy()
 {
-    return $this->belongsTo(\App\Models\Staff::class, 'rejected_by');
+    return $this->belongsTo(\App\Models\User::class, 'rejected_by');
 }
+
 
 }

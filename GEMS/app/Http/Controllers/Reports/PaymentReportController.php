@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 
 class PaymentReportController extends Controller
 {
@@ -54,9 +55,23 @@ class PaymentReportController extends Controller
 
 
 
-public function downloadAllPaymentsPdf()
+public function downloadAllPaymentsPdf(Request $request)
 {
-    $payments = Payment::with(['student.user', 'verifiedBy', 'rejectedBy', 'application.course'])->get();
+    // $payments = Payment::with(['student.user', 'verifiedBy', 'rejectedBy', 'application.course'])->get();
+
+     $start = $request->query('start_date');
+    $end = $request->query('end_date');
+
+    $query = Payment::with(['student.user', 'verifiedBy', 'rejectedBy', 'application.course']);
+
+    if ($start && $end) {
+        $query->whereBetween('created_at', [
+            \Carbon\Carbon::parse($start)->startOfDay(),
+            \Carbon\Carbon::parse($end)->endOfDay()
+        ]);
+    }
+
+    $payments = $query->get();
 
     $paymentDetails = $payments->map(function ($p) {
         return [
@@ -67,10 +82,10 @@ public function downloadAllPaymentsPdf()
             'method' => $p->method,
             'verified' => $p->verified ? 'Yes' : 'No',
             'verified_by' => optional($p->verifiedBy)->name,
-            'verified_at' => optional($p->verified_at)?->format('Y-m-d'),
+            'verified_at' => $p->verified_at ? \Carbon\Carbon::parse($p->verified_at)->format('Y-m-d H:i') : null,
             'rejected' => $p->rejected ? 'Yes' : 'No',
             'rejected_by' => optional($p->rejectedBy)->name,
-            'rejected_at' => optional($p->rejected_at)?->format('Y-m-d'),
+            'rejected_at' => optional($p->rejected_at)?->format('Y-m-d H:i'),
             'rejection_reason' => $p->rejection_reason,
             'course' => optional($p->application?->course)->name,
             'receipt' => $p->receipt,
@@ -78,11 +93,19 @@ public function downloadAllPaymentsPdf()
         ];
     });
 
-    $pdf = Pdf::loadView('pdf.payment_report', [
+    // $pdf = Pdf::loadView('pdf.payment_report', [
+    //     'payments' => $paymentDetails,
+    // ])->setPaper('A4', 'landscape');
+
+    // return $pdf->download('full_payment_report_' . now()->format('Ymd_His') . '.pdf');
+
+    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.payment_report', [
         'payments' => $paymentDetails,
+        'start_date' => $start,
+        'end_date' => $end,
     ])->setPaper('A4', 'landscape');
 
-    return $pdf->download('full_payment_report_' . now()->format('Ymd_His') . '.pdf');
+    return $pdf->download('payment_report_' . now()->format('Ymd_His') . '.pdf');
 }
 
 public function viewAllPayments()
@@ -98,10 +121,11 @@ public function viewAllPayments()
             'method' => $p->method,
             'verified' => $p->verified ? 'Yes' : 'No',
             'verified_by' => optional($p->verifiedBy)->name,
-            'verified_at' => optional($p->verified_at)?->format('Y-m-d'),
+            'verified_at' => $p->verified_at ? \Carbon\Carbon::parse($p->verified_at)->format('Y-m-d H:i') : null,
+
             'rejected' => $p->rejected ? 'Yes' : 'No',
             'rejected_by' => optional($p->rejectedBy)->name,
-            'rejected_at' => optional($p->rejected_at)?->format('Y-m-d'),
+            'rejected_at' => optional($p->rejected_at)?->format('Y-m-d H:i'),
             'rejection_reason' => $p->rejection_reason,
             'course' => optional($p->application?->course)->name,
             'receipt' => $p->receipt,
