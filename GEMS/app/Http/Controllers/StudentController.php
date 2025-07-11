@@ -299,6 +299,7 @@ public function dashboard()
                     'title' => $mat->title,
                     'type' => $mat->type,
                     'file_path' => $mat->file_path,
+                    'created_at' => $mat->created_at,
                 ];
             }),
         ];

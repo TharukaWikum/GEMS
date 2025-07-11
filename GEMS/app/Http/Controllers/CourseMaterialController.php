@@ -16,7 +16,8 @@ class CourseMaterialController extends Controller
         ]);
 
         $file = $request->file('file');
-        $path = $file->store('materials', 'public');
+        // $path = $file->store('materials', 'public');
+        $path = $file->storeAs('materials', $file->getClientOriginalName(), 'public');
         $type = $file->getClientOriginalExtension();
 
         CourseMaterial::create([
