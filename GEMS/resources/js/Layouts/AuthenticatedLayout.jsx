@@ -7,6 +7,9 @@ import { useState } from "react";
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
+    const role = user.role;
+
+    console.log("role", role);
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
@@ -23,64 +26,90 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </Link>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            {(role === "admin" || role === "frontdesk") && (
                                 <NavLink
                                     href={route("dashboard")}
                                     active={route().current("dashboard")}
                                 >
                                     Dashboard
                                 </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route("students.index")}
-                                    active={route().current("students.index")}
-                                >
-                                    Students
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route("staff.index")}
-                                    active={route().current("staff.index")}
-                                >
-                                    Staff
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route("courses.index")}
-                                    active={route().current("courses.index")}
-                                >
-                                    Courses
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route("payments.index")}
-                                    active={route().current("payments.index")}
-                                >
-                                    Payments
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route("placement.index")}
-                                    active={route().current("placement.index")}
-                                >
-                                    Placement Tests
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route("student.dashboard")}
-                                    active={route().current(
-                                        "student.dashboard"
-                                    )}
-                                >
-                                    Dashboard
-                                </NavLink>
-                            </div>
+                            )}
+
+                            {(role === "admin" || role === "frontdesk" || role === "teacher") && (
+                                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                    <NavLink
+                                        href={route("students.index")}
+                                        active={route().current(
+                                            "students.index"
+                                        )}
+                                    >
+                                        Students
+                                    </NavLink>
+                                </div>
+                            )}
+
+                            {(role === "admin" || role === "frontdesk") && (
+                                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                    <NavLink
+                                        href={route("staff.index")}
+                                        active={route().current("staff.index")}
+                                    >
+                                        Staff
+                                    </NavLink>
+                                </div>
+                            )}
+
+                            {(role === "admin" || role === "teacher") && (
+                                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                    <NavLink
+                                        href={route("courses.index")}
+                                        active={route().current(
+                                            "courses.index"
+                                        )}
+                                    >
+                                        Courses
+                                    </NavLink>
+                                </div>
+                            )}
+
+                            {(role === "admin" || role === "frontdesk") && (
+                                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                    <NavLink
+                                        href={route("payments.index")}
+                                        active={route().current(
+                                            "payments.index"
+                                        )}
+                                    >
+                                        Payments
+                                    </NavLink>
+                                </div>
+                            )}
+
+                            {(role === "admin" || role === "frontdesk"  || role === "teacher") && (
+                                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                    <NavLink
+                                        href={route("placement.index")}
+                                        active={route().current(
+                                            "placement.index"
+                                        )}
+                                    >
+                                        Placement Tests
+                                    </NavLink>
+                                </div>
+                            )}
+
+                            {(role === "student") && (
+                                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                    <NavLink
+                                        href={route("student.dashboard")}
+                                        active={route().current(
+                                            "student.dashboard"
+                                        )}
+                                    >
+                                        Dashboard
+                                    </NavLink>
+                                </div>
+                            )}
                         </div>
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">

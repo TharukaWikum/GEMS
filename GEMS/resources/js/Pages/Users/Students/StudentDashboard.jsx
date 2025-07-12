@@ -7,7 +7,6 @@ import AvailableCourses from "./Courses/AvailableCourses";
 import MyApplications from "./Courses/MyApplications";
 import PayInstallment from "./Courses/PayInstallment";
 import StudentPaymentHistory from "./Pages/StudentPaymentHistory";
-import MyRegisteredCourseMaterials from "./Courses/MyRegisteredCourseMaterials";
 import CourseExam from "./Courses/CourseExam";
 import ResubmitRegistrationPaymentForm from "./Pages/ResubmitRegistrationPaymentForm";
 import MyRegisteredCourses from "./Courses/MyRegisteredCourses";
@@ -96,9 +95,9 @@ export default function StudentDashboard() {
                                 !p.verified
                         ) && <ResubmitRegistrationPaymentForm />}
 
-                    {hasRejectedReg && !hasAnyValidReg && (
+                    {/* {hasRejectedReg && !hasAnyValidReg && (
                         <ResubmitRegistrationPaymentForm />
-                    )}
+                    )} */}
                 </div>
 
                 {registeredCourses?.length > 0 && (

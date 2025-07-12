@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class CourseApplicationController extends Controller
 {
@@ -132,7 +133,9 @@ if ($existingRejected) {
         'rejection_reason' => null,
     ]);
 
-    return redirect()->route('student.applications.index')->with('success', 'Course application submitted. Payment is pending verification.');
+    // return redirect()->route('student.applications.index')->with('success', 'Course application submitted. Payment is pending verification.');
+    return back()->with('success', 'Course application submitted. Payment is pending verification.');
+
 }
 
 

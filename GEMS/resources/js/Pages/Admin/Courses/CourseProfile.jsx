@@ -5,7 +5,8 @@ import CourseStudentList from "./CourseStudentList";
 import CourseMaterialUpload from "./CourseMaterialUpload";
 import CourseMaterials from "./CourseMaterials";
 import ScheduleCourseExam from "./ScheduleCourseExam";
-import ExamDetails from "../CourseExams/ExamDetails";
+// import ExamDetails from "../CourseExams/ExamDetails";
+import ScheduledExamList from "./ScheduledExamList";
 
 export default function CourseProfile({ auth, course, students, exams, teachers}) {
     // console.log("course", course);
@@ -23,23 +24,27 @@ export default function CourseProfile({ auth, course, students, exams, teachers}
             }
         >
             <Head title="Course Profile" />
-            <div className="max-w-4xl mx-auto bg-white p-6 mt-6 shadow rounded-lg">
+            <div className="max-w-7xl mx-auto bg-white p-6 mt-6 shadow rounded-lg">
                 <CourseDetails course={course} teachers={teachers}/>
             </div>
-            <div className="max-w-5xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-6">
+            <div className="max-w-7xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-6">
                 <CourseStudentList students={students} />
             </div>
-            <div className="max-w-5xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-6">
+            <div className="max-w-7xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-6">
                 <CourseMaterials courseId={course.id} />
             </div>
-            <div className="max-w-5xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-6">
+            <div className="max-w-7xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-6">
                 <CourseMaterialUpload courseId={course.id} />
             </div>
-            <div className="max-w-5xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-6">
+            <div className="max-w-7xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-6">
                 <ScheduleCourseExam courseId={course.id} students={students} />
             </div>
-            {exams?.length > 0 && (
-                <div className="max-w-5xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-4">
+
+            <div>
+                <ScheduledExamList exams={exams} />
+            </div>
+            {/* {exams?.length > 0 && (
+                <div className="max-w-7xl mx-auto p-6 bg-white rounded shadow mt-6 space-y-4">
                     <h3 className="text-lg font-semibold text-gray-800">
                         Scheduled Exams
                     </h3>
@@ -69,7 +74,7 @@ export default function CourseProfile({ auth, course, students, exams, teachers}
                         ))}
                     </ul>
                 </div>
-            )}
+            )} */}
         </AuthenticatedLayout>
     );
 }

@@ -100,7 +100,18 @@ class RegisteredUserController extends Controller
             event(new Registered($user));
             Auth::login($user);
 
-            return redirect()->route('dashboard');
+            // return redirect()->route('dashboard');
+            switch ($user->role) {
+    case 'admin':
+        return redirect()->route('dashboard');
+    case 'frontdesk':
+        return redirect()->route('staff.index');
+    case 'teacher':
+        return redirect()->route('courses.index');
+    case 'student':
+    default:
+        return redirect()->route('student.dashboard');
+}
         } catch (\Throwable $e) {
             DB::rollBack();
             Log::error('❌ Error Saving Student', ['error' => $e->getMessage()]);

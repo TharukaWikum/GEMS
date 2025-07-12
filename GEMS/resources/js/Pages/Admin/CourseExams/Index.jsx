@@ -63,6 +63,8 @@
 //         </AuthenticatedLayout>
 //     );
 // }
+
+
 import React from "react";
 import { Head, usePage } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -76,16 +78,24 @@ export default function Index() {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800">Exam Details</h2>}
+            header={
+                <h2 className="font-semibold text-xl text-gray-800">
+                    Exam Details
+                </h2>
+            }
         >
             <Head title="Course Exam Details" />
 
             <div className="max-w-5xl mx-auto space-y-6 p-6">
                 <ExamDetails exam={exam} />
-                <MarksheetSection exam={exam} />
+
+                {exam.status !== "completed" && (
+                    <MarksheetSection exam={exam} />
+                )}
+
                 <StudentExamResultTable students={exam.students} />
             </div>
-            
         </AuthenticatedLayout>
     );
 }
+

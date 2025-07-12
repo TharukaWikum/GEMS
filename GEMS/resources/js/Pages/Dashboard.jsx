@@ -122,7 +122,7 @@ export default function Dashboard() {
                     <SummaryCards summary={summary} />
                     <StudentStatusOverview summary={summary} />
                     <CourseStudentCount summary={summary} />
-                    <CourseEnrollmentStatus summary={summary} />
+                    {/* <CourseEnrollmentStatus summary={summary} /> */}
                     <PaymentSummaryCard payments={summary.payments_summary} />
                     <DuePaymentsTable duePayments={summary.due_payments} />
                     <Link
